@@ -10,6 +10,7 @@
 // Define global variables
 var timeLineChart, clientsChart;
 var queryTypePieChart, forwardDestinationPieChart;
+var queryTypePieChartCanvas, forwardDestinationPieChartCanvas;
 
 var THEME_COLORS = [
   "#f56954",
@@ -295,6 +296,7 @@ function updateQueryTypesPie() {
     var v = [],
       c = [],
       k = [],
+      ariaLabel = [];
       i = 0;
     // Collect values and colors, and labels
     var iter = Object.prototype.hasOwnProperty.call(data, "querytypes") ? data.querytypes : data;
@@ -305,6 +307,7 @@ function updateQueryTypesPie() {
         v.push(iter[key]);
         c.push(THEME_COLORS[i % THEME_COLORS.length]);
         k.push(key);
+        ariaLabel.push(key + ': ' + iter[key] + '%');
         querytypeids.push(i + 1);
       }
 
@@ -318,6 +321,8 @@ function updateQueryTypesPie() {
     queryTypePieChart.data.labels = k;
     $("#query-types-pie .overlay").hide();
     queryTypePieChart.update();
+
+    queryTypePieChartCanvas.setAttribute('aria-label', 'Query type breakdown: '+ariaLabel.join(', '));
 
     // Don't use rotation animation for further updates
     queryTypePieChart.options.animation.duration = 0;
@@ -425,6 +430,7 @@ function updateForwardDestinationsPie() {
     var v = [],
       c = [],
       k = [],
+      ariaLabel = [],
       i = 0,
       values = [];
 
@@ -453,6 +459,7 @@ function updateForwardDestinationsPie() {
       k.push(value[0]);
       v.push(value[1]);
       c.push(value[2]);
+      ariaLabel.push(value[0] + ': ' + value[1] + '%');
     });
 
     // Build a single dataset with the data to be pushed
@@ -463,6 +470,7 @@ function updateForwardDestinationsPie() {
     // and push it at once
     $("#forward-destinations-pie .overlay").hide();
     forwardDestinationPieChart.update();
+    forwardDestinationPieChartCanvas.setAttribute('aria-label', 'Upstream server breakdown: '+ariaLabel.join(', '));
 
     // Don't use rotation animation for further updates
     forwardDestinationPieChart.options.animation.duration = 0;
@@ -503,9 +511,9 @@ function updateTopClientsChart() {
         url =
           '<a href="queries.php?client=' +
           clientip +
-          '" title="' +
-          clientip +
-          '">' +
+          '"' +
+          ((clientip != clientname)? ' title="' + clientip + '"' : '') + /* only add title if it differs from link text */
+          '>' +
           clientname +
           "</a>";
         percentage = (data.top_sources[client] / data.dns_queries_today) * 100;
@@ -543,9 +551,9 @@ function updateTopClientsChart() {
         url =
           '<a href="queries.php?client=' +
           clientip +
-          '&type=blocked" title="' +
-          clientip +
-          '">' +
+          '&type=blocked"' +
+          ((clientip != clientname)? ' title="' + clientip + '"' : '') + /* only add title if it differs from link text */
+          '>' +
           clientname +
           "</a>";
         percentage = (data.top_sources_blocked[client] / data.ads_blocked_today) * 100;
@@ -1134,7 +1142,8 @@ $(function () {
   });
 
   if (document.getElementById("queryTypePieChart")) {
-    ctx = document.getElementById("queryTypePieChart").getContext("2d");
+    queryTypePieChartCanvas = document.getElementById("queryTypePieChart");
+    ctx = queryTypePieChartCanvas.getContext("2d");
     queryTypePieChart = new Chart(ctx, {
       type: "doughnut",
       data: {
@@ -1179,8 +1188,9 @@ $(function () {
     updateQueryTypesPie();
   }
 
-  if (document.getElementById("forwardDestinationPieChart")) {
-    ctx = document.getElementById("forwardDestinationPieChart").getContext("2d");
+  forwardDestinationPieChartCanvas = document.getElementById("forwardDestinationPieChart");
+  if (forwardDestinationPieChartCanvas) {
+    ctx = forwardDestinationPieChartCanvas.getContext("2d");
     forwardDestinationPieChart = new Chart(ctx, {
       type: "doughnut",
       data: {

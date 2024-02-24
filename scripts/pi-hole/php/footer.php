@@ -21,7 +21,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="input-group">
-                        <input id="customTimeout" class="form-control" type="number" value="60">
+                        <input id="customTimeout" class="form-control" type="number" value="60" aria-label="Number of seconds to disable Pi-hole for">
                         <div class="input-group-btn" data-toggle="buttons">
                             <label class="btn btn-default">
                                 <input id="selSec" type="radio"> Secs

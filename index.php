@@ -124,7 +124,7 @@ require_once 'scripts/pi-hole/php/gravity.php';
             </div>
             <div class="box-body">
                 <div style="width:50%">
-                    <canvas id="queryTypePieChart" width="280" height="280"></canvas>
+                    <canvas id="queryTypePieChart" width="280" height="280" aria-label="Empty pie chart of query types" role="img"></canvas>
                 </div>
                 <div class="chart-legend" style="width:50%" id="query-types-legend" ></div>
             </div>
@@ -141,7 +141,7 @@ require_once 'scripts/pi-hole/php/gravity.php';
             </div>
             <div class="box-body">
                 <div style="width:50%">
-                    <canvas id="forwardDestinationPieChart" width="280" height="280" class="extratooltipcanvas no-user-select"></canvas>
+                    <canvas id="forwardDestinationPieChart" width="280" height="280" class="extratooltipcanvas no-user-select"  aria-label="Empty pie chart of upstream servers" role="img"></canvas>
                 </div>
                 <div class="chart-legend" style="width:50%" id="forward-destinations-legend"></div>
             </div>

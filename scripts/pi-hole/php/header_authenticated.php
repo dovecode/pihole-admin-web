@@ -200,7 +200,7 @@ if ($auth) {
                         </p>
                     </li>
                     <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" aria-label="Menu for logout and related links">
                             <i class="fa fa-bars"></i>
                         </a>
                         <ul class="dropdown-menu">
